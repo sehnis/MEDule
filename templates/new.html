@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+<div class="container" style="width:900px;display:block;margin:auto">
+	<nav class="navbar navbar-default" style="background-color:#FFF!important;padding:10px">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">
+					<img src="static/images/logo/medule_green.png" width="160px" height="40px" style="margin-top:-15px">
+				</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">          Dashboard          </a></li>
+				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">          Click here to Print the Current Page          </a>
+				</li><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="#">          Logout          </a></li>	
+			</ul>
+			</ul>
+		</div>
+	</nav>
+</div>
+
+
+{% endblock %}
+
+{% block title %}Add a Medication{% endblock %}
+
+{% block main %}
+<div style = "text-align:center">
+	<h1><b style="font-size:48px">Add a Medication</b></h1>
+	<hr><br>
+	<div style="max-width:450px;display:block;margin:auto;">
+		<form action="/register" method="POST">
+			<p><i>What is the brand name of the medication<br>(i.e. Pradaxa, Tylenol, etc.)?</i></p>
+			<input type="text" class="form-control input-lg" name="brand" placeholder="Medication Brand Name" required>
+			<br><hr><br>
+
+			<p><i>What is the generic name of the medication<br>(i.e. dabigatran, acetaminophen, etc.)?</i></p>
+			<input type="text" class="form-control input-lg" name="generic" placeholder="Medication Generic Name" required>
+			<br><hr><br>
+
+			<p><i>What is the dosage of the medication<br>(i.e. 400mg, 100mg/mL, etc.)?</i></p>
+			<input type="text" class="form-control input-lg" name="dtype" placeholder="Medication Dosage">
+			<br><hr><br>
+
+			<p><i>How often should the medication be taken?</i></p>
+			<div class="form-group">
+			<select class="form-control" name="freq">
+				<option>Once per Day</option>
+				<option>Twice per Day</option>
+				<option>Every Other Day</option>
+				<option>Once per Week</option>
+				<option>As Needed</option>	
+			</select>
+			</div>
+			<br><hr><br>
+
+			<p><i>How much of the medication should be taken on this interval?<br>(i.e. 1 capsule, 2 puffs, etc.)</i></p>
+			<input type="text" class="form-control input-lg" name="quant" placeholder="Medication Quantity">
+			<br><hr><br>
+
+			<p><i>Please add any relevant notes here, up to 1,000 characters.</i></p>
+			<div class="form-group">
+				<textarea class="form-control" rows="5" name="notes" placeholder="Enter notes here..."></textarea>
+			</div>
+			<br>
+			<button type="submit" class="btn-lg btn-block btn-success">Create New Medication</button><br>
+		</form>
+	</div>
+
+</div>
+{% endblock %}

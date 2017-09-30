@@ -15,9 +15,9 @@ class User(db.Model):
 	username = db.Column(db.String(50), unique=True)
 	password = db.Column(db.String(50))
 
-	def __init__(self, uname, pword):
-		self.username = uname
-		self.password = pword
+	def __init__(self, username, password):
+		self.username = username
+		self.password = password
 
 class Full_Med(db.Model):
 
@@ -26,9 +26,8 @@ class Full_Med(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	brand_name = db.Column(db.String(100))
 	generic_name = db.Column(db.String(100))
-	dose_num = db.Column(db.Integer)
-	dose_type = db.Column(db.String(25))
-	quantity = db.Column(db.Integer)
+	dose_type = db.Column(db.String(50))
+	quantity = db.Column(db.String(50))
 	# Will be structured as a dropdown ('Daily', 'Every Other Day', 'Twice Daily,' 'As Needed,' etc.)
 	frequency = db.Column(db.String(100))
 	notes = db.Column(db.String(1000))
@@ -36,10 +35,9 @@ class Full_Med(db.Model):
 	# TODO: Incorporate pill descriptions.
 	# TODO: Incorporate side effects and warnings as a list. MongoDB might make it easier.
 
-	def __init__(self, brand, generic, dnum, dtype, quant, freq, notes):
+	def __init__(self, brand, generic, dtype, quant, freq, notes):
 		self.brand_name = brand
 		self.generic_name = generic
-		self.dose_num = dnum
 		self.dose_type = dtype
 		self.quantity = quant
 		self.frequency = freq
@@ -102,6 +100,21 @@ def register():
         db.session.commit()
         return render_template('login.html', succmess="Account created successfully!")
     return render_template('register.html', errmess="Cannot register you with that information. Please try again.")
+
+
+@app.route('/new', methods=['GET', 'POST'])
+def new_sheet():
+    if not session.get('logged_in'):
+        return redirect(url_for('landing'))
+    if request.method == 'POST':
+        sheet_to_add = Sheet(brand_name=request.form['brand'], generic_name=request.form['generic'],
+        					 dose_type=request.form['dtype'], quantity=request.form['quant'],
+        					 frequency=request.form['freq'], notes=request.form['notes'], owner=session['active_user'])
+        db.session.add(sheet_to_add)
+        db.session.commit()
+        return redirect(url_for('landing'))
+    return render_template('new.html', errmess="Cannot register you with that information. Please try again.")
+
 
 @app.route("/logout")
 def logout():
