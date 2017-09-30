@@ -4,14 +4,15 @@
 
 {% block main %}
 <div style = "text-align:center">
+	<p style="color:#f00;font-weight:bold">{{errmess}}</p>
 	<img src="static/images/logo/medule_green.png" width="400px" height="100px" style="display:block;margin:auto;">
 	<br><br>
 	<p>Medule allows you to create and view easy-to-read summaries and schedules of perscribed medications, to minimize confusion and prevent accidental misuse of perscriptions.</p>
 	<hr><br>
 	<div style="display:block;margin:auto;max-width:500px">
-		<button type="button" class="btn-lg btn-success btn-block">Sign In</button>
+		<button type="button" class="btn-lg btn-success btn-block" onclick="location.href='login';">Sign In</button>
 		<br><h4>or</h4><br>
-		<button type="button" class="btn-lg btn-success btn-block">Register</button><br>
+		<button type="button" class="btn-lg btn-success btn-block" onclick="location.href='register';">Register</button><br>
 	</div>
 
 </div>

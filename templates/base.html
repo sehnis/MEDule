@@ -20,7 +20,32 @@
 	</head>
 
 	<body style="background-color:#00CC60">
-		{% block navbar %}{% endblock %}
+
+
+
+	{% if session.get('logged_in') %}
+		<div class="container" style="width:900px;display:block;margin:auto">
+			<nav class="navbar navbar-default" style="background-color:#FFF!important;padding:10px">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="#">
+							<img src="static/images/logo/medule_green.png" width="160px" height="40px" style="margin-top:-15px">
+						</a>
+					</div>
+					<ul class="nav navbar-nav">
+						<li><a>Hello, {{session['active_user']}}!&nbsp;&nbsp;&nbsp;</a></li>
+						<li><a href="#">Dashboard&nbsp;&nbsp;&nbsp;</a></li>
+						<li><a href="#" onclick="window.print();">Click here to Print the Current Page&nbsp;&nbsp;&nbsp;</a></li>
+						<li><a href="#">Logout&nbsp;&nbsp;&nbsp;</a></li>	
+					</ul>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	{% endif %}
+
+
+
 		<br><br> <!-- This just feels wrong -->
 		<div class = "primary container rounded" style = "font-family:'Montserrat',sans-serif;max-width:700px;background-color:#FFF;padding:25px;border-radius:25px">
 			<div id = "bigcontent" class = "rounded">

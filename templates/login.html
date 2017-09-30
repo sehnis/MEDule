@@ -4,6 +4,8 @@
 
 {% block main %}
 <div style = "text-align:center">
+	<p style="color:#f00;font-weight:bold">{{errmess}}</p>
+	<p style="color:#00CC60;font-weight:bold">{{succmess}}</p>
 	<h1><b style="font-size:48px">Sign In</b></h1>
 	<hr><br>
 	<div style="max-width:400px;display:block;margin:auto;">
@@ -15,7 +17,7 @@
 	</div>
 
 	<br><hr>
-	<p>Don't have an account?<br><a href="register.html">Click here to sign up.</a></p>
+	<p>Don't have an account?<br><a href="register">Click here to sign up.</a></p>
 
 </div>
 {% endblock %}

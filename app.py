@@ -23,7 +23,7 @@ class Full_Med(db.Model):
 
 	__tablename__ = 'Medications'
 
-	id = db.Column(db.Integer, primary_key=True)
+	owner = db.Column(db.String(100), primary_key=True)
 	brand_name = db.Column(db.String(100))
 	generic_name = db.Column(db.String(100))
 	dose_type = db.Column(db.String(50))
@@ -35,13 +35,14 @@ class Full_Med(db.Model):
 	# TODO: Incorporate pill descriptions.
 	# TODO: Incorporate side effects and warnings as a list. MongoDB might make it easier.
 
-	def __init__(self, brand, generic, dtype, quant, freq, notes):
+	def __init__(self, brand, generic, dtype, quant, freq, notes, owner):
 		self.brand_name = brand
 		self.generic_name = generic
 		self.dose_type = dtype
 		self.quantity = quant
 		self.frequency = freq
 		self.notes = notes
+		self.owner = owner	
 
 class Known_Med(db.Model):
 
