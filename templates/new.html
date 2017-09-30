@@ -5,10 +5,12 @@
 
 {% block main %}
 <div style = "text-align:center">
+	<p style="color:#f00;font-weight:bold">{{errmess}}</p>
+	<p style="color:#00CC60;font-weight:bold">{{succmess}}</p>
 	<h1><b style="font-size:48px">Add a Medication</b></h1>
 	<hr><br>
 	<div style="max-width:450px;display:block;margin:auto;">
-		<form action="/register" method="POST">
+		<form action="/new" method="POST">
 			<p><i>What is the brand name of the medication<br>(i.e. Pradaxa, Tylenol, etc.)?</i></p>
 			<input type="text" class="form-control input-lg" name="brand" placeholder="Medication Brand Name" required>
 			<br><hr><br>
