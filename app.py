@@ -103,6 +103,12 @@ def register():
         return render_template('login.html', succmess="Account created successfully!")
     return render_template('register.html', errmess="Cannot register you with that information. Please try again.")
 
+@app.route("/logout")
+def logout():
+	session['logged_in'] = False
+	session['active_user'] = None
+	return redirect(url_for('landing'))
+
 '''
 @app.route('/login')
 
