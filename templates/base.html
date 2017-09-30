@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background-color:#00CC60">
 	<head>
 		<!-- META -->
 		<meta charset="utf-8">
@@ -8,6 +8,7 @@
 		<meta name="author" content="sehnis">
 
 		<!-- MISC STYLE -->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 		<link rel="favicon" href="/static/images/logo/favicon.ico">
 		<title>{% block title %}{% endblock %} | MEDule.org</title>
 
@@ -18,20 +19,15 @@
 
 	</head>
 
-	<body>
+	<body style="background-color:#00CC60">
 
-		<div class = "primary container">
-
-			<!-- SEPARATE NAVBAR TEMPLATE -->
-			{% include 'navbar.html' %}
-
-			<div id = "bigleftspace" class = "col-4 spacer"></div>
-			<div id = "bigcontent" class = "col-4 maincontent">{% block main %}{% endblock %}</div>
-			<div id = "bigrightspace" class = "col-4 spacer"></div>
-
+		<br><br><br><br> <!-- This just feels wrong -->
+		<div class = "primary container rounded" style = "font-family:'Montserrat',sans-serif;max-width:700px;background-color:#FFF;padding:25px;border-radius:25px">
+			<div id = "bigcontent" class = "rounded">
+			{% block main %}{% endblock %}
+			</div>
 			<!-- SEPARATE FOOTER TEMPLATE -->
 			{% include 'footer.html' %}
-
 		</div>
 
 	<!-- Bootstrap core JavaScript
