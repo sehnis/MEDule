@@ -71,6 +71,38 @@ class Known_Med(db.Model):
 def landing():
     # If login was done, then session[logged_in] should be true.
     return render_template('home.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        username = request.form['username']
+        password = request.form['password']
+        try:
+            data = User.query.filter_by(username=username, password=password).first()
+            if data is not None:
+                session['logged_in'] = True
+                session['active_user'] = username
+                return redirect(url_for('landing'))
+            else:
+                return render_template('login.html', errmess='Username and/or password incorrect. Please try again.')
+        except:
+            return render_template('login.html', errmess='There was an error when trying to sign you in. Please try again.')
+
+# TODO: Add areas on pages to show success or error messages.
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if session.get('logged_in'):
+        return redirect(url_for('landing'))
+    if request.method == 'POST':
+        user_to_add = User(username=request.form['username'], password=request.form['password'])
+        db.session.add(user_to_add)
+        db.session.commit()
+        return render_template('login.html', succmess="Account created successfully!")
+    return render_template('register.html', errmess="Cannot register you with that information. Please try again.")
+
 '''
 @app.route('/login')
 

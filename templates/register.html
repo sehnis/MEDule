@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block main %}
+<div style = "text-align:center">
+	<h1><b style="font-size:48px">Sign In</b></h1>
+	<hr><br>
+	<div style="max-width:400px;display:block;margin:auto;">
+		<form action="/register" method="POST">
+			<input type="username" class="form-control input-lg" name="username" placeholder="Username" width="500px"><br><br>
+			<input type="password" class="form-control input-lg" name="password" placeholder="Password" width="500px"><br><br>
+			<button type="submit" class="btn-lg btn-block btn-success">Sign in</button>
+		</form>
+	</div>
+
+	<br><hr>
+	<p>Already have an account?<br><a href="login.html">Click here to sign in.</a></p>
+
+</div>
+{% endblock %}
