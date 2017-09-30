@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- META -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="MEDule | Making Medications Less Painful">
+		<meta name="author" content="sehnis">
+
+		<!-- MISC STYLE -->
+		<link rel="favicon" href="/static/images/logo/favicon.ico">
+		<title>{% block title %}{% endblock %} | MEDule.org</title>
+
+		<!-- CSS & NON-CORE JS -->
+		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/static/css/medulestyle.css" rel="stylesheet">
+		<script src="/static/js/modernizr-2.8.3.min.js"></script>
+
+	</head>
+
+	<body>
+
+		<div class = "primary container">
+
+			<!-- SEPARATE NAVBAR TEMPLATE -->
+			{% include 'navbar.html' %}
+
+			<div id = "bigleftspace" class = "col-4 spacer"></div>
+			<div id = "bigcontent" class = "col-4 maincontent">{% block main %}{% endblock %}</div>
+			<div id = "bigrightspace" class = "col-4 spacer"></div>
+
+			<!-- SEPARATE FOOTER TEMPLATE -->
+			{% include 'footer.html' %}
+
+		</div>
+
+	<!-- Bootstrap core JavaScript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="/static/js/jquery-1.11.0.min.js"><\/script>')</script>
+	<script src="/static/js/bootstrap.min.js"></script>
+
+	</body>
+</html>
