@@ -26,6 +26,7 @@ class Full_Med(db.Model):
 
 	__tablename__ = 'Medications'
 
+	id = db.Column(db.Integer, primary_key=True, unique=True)
 	owner = db.Column(db.String(100))
 	brand_name = db.Column(db.String(100))
 	generic_name = db.Column(db.String(100))
@@ -111,12 +112,8 @@ def register():
 		return redirect(url_for('view_dash'))
 	if request.method == 'POST':
 		user_to_add = User(username=request.form['username'], password=request.form['password'])
-		try:
-			db.session.add(user_to_add)
-			db.session.commit()
-		except IntegrityError:
-			db.session.rollback()
-			return render_template('register.html', errmess="Username must not already be taken.")
+		db.session.add(user_to_add)
+		db.session.commit()
 		return render_template('login.html', succmess="Account created successfully!")
 	return render_template('register.html', errmess="Cannot register you with that information. Please try again.")
 
@@ -145,6 +142,10 @@ def view_dash():
 	allmeds = Full_Med.query.filter_by(owner=session['active_user']).all()
 	return render_template('dashboard.html', allmeds=allmeds)
 
+@app.route('/<int:med_id>')
+def view_med(med_id):
+	med_holder = Full_Med.query.filter_by(id=med_id).first()
+	return render_template('med.html', med_holder=med_holder)
 
 @app.route("/logout")
 def logout():

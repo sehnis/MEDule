@@ -14,7 +14,7 @@
 	{% endif %}
 	<div style="display:block;margin:auto;max-width:500px;text-align:left">
 	{% for med in allmeds %}
-		<hr><a href="{{med.owner}}/{{med.brand_name}}">
+		<hr><a href="{{med.id}}">
 		<h1>{{med.brand_name}}</h1><h3>({{med.generic_name}})</h3></a>
 	{% endfor %}
 	</div> 

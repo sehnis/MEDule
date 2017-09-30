@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{{med_holder.brand_name}}{% endblock %}
+
+{% block main %}
+<div style = "text-align:center">
+	<p style="color:#f00;font-weight:bold">{{errmess}}</p>
+	<p style="color:#00CC60;font-weight:bold">{{succmess}}</p>
+	<button type="button" class="btn-lg btn-success btn-block" onclick="location.href='#';">Click to Add This to Google Calendar</button>
+	
+	<h1 style="font-size:52px"><b>{{med_holder.brand_name}}</b></h1>
+	<h4><i>Generic Name:</i> <b>{{med_holder.generic_name}}</b></h4>
+	<h4><i>Strength/Dosage:</i> <b>{{med_holder.dose_type}}</b>	
+	<br><hr><h4><i>APPEARANCE:</i></h4>
+	<table class="table">
+		<thead>
+			<tr>
+				<td><b>Color(s)</b></td>
+				<td><b>Type</b></td>
+				<td><b>Shape</b></td>
+				<td><b>Imprint</b></td>
+			</tr>
+		</thead>
+		<tr>
+			<td>White</td>
+			<td>Tablet</td>
+			<td>Oval</td>
+			<td>Two red letter Ys on one side; one on each half.</td>
+		</tr>
+	</table>	
+	<br><hr><h4><i>DIRECTIONS:</i></h4>
+	<h2><b>Take {{med_holder.quantity}},<br>{{med_holder.frequency}}</b></h2>
+	<br><hr><h4><i>NOTES:</i></h4><p>
+	{% if med_holder.notes %}
+	{{med_holder.notes}}
+	{% else %}
+	[No notes given]
+	{% endif %}</p>
+	<br><hr><p><a href="https://www.drugs.com/search.php?sources%5B%5D=sfx&searchterm={{med_holder.brand_name}}">
+	Click here to view information about potential side effects.</a><br>Some medications can cause serious side effects that require
+	immediate medical attention, so be aware of these risks and signs beforehand.</p>
+
+</div>
+{% endblock %}
