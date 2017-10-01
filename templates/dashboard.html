@@ -17,7 +17,18 @@
 		<hr><a href="{{med.id}}">
 		<h1>{{med.brand_name}}</h1><h3>({{med.generic_name}})</h3></a>
 	{% endfor %}
-	</div> 
+	<hr><br>
+	<p>Here you can also store contact information about your pharmacy and doctor, in case you have questions or concerns about your medications.</p>
+	{% if profinfo %}
+		<p>Doctor Phone: {{profinfo.d_phone}}&nbsp;&nbsp;&nbsp;<br>
+		Doctor Email: {{profinfo.d_email}}&nbsp;&nbsp;&nbsp;</p>
+		<p>Pharmacy Phone: {{profinfo.ph_phone}}&nbsp;&nbsp;&nbsp;<br>
+		Pharmacy Address: {{profinfo.ph_email}}&nbsp;&nbsp;&nbsp;</p>
+	{% else %}
+		<p>Changes pending; reload the dashboard to load the new informationn.<p>
+	{% endif %}
+	</div>
+	<button type="button" class="btn-lg btn-success btn-block" onclick="location.href='optup';">Click to Update Contact Info</button><br>
 
 </div>
 {% endblock %}

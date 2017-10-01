@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Update Contact Info{% endblock %}
+
+{% block main %}
+<div style = "text-align:center">
+	<p style="color:#f00;font-weight:bold">{{errmess}}</p>
+	<p style="color:#00CC60;font-weight:bold">{{succmess}}</p>
+	<h1><b style="font-size:48px">Update Contact Info</b></h1>
+	<hr><br>
+	<div style="max-width:500px;display:block;margin:auto;">
+		<form action="/update" method="POST">
+			<i>Enter an email address and phone number for your doctor.</i><br><br>
+			<input type="text" class="form-control input-lg" name="d_email" placeholder="Doctor's Email" width="500px"><br><br>
+			<input type="text" class="form-control input-lg" name="d_phone" placeholder="Doctor's Phone Number" width="500px"><br><br>
+			<hr><br><i>Enter a street address and phone number for the pharmacy you use.</i><br></br>
+			<input type="text" class="form-control input-lg" name="ph_email" placeholder="Pharmacy Address" width="500px"><br><br>
+			<input type="text" class="form-control input-lg" name="ph_phone" placeholder="Pharmacy Phone Number" width="500px"><br><br>
+			<button type="submit" class="btn-lg btn-block btn-success">Update Account</button>
+		</form>
+	</div>
+</div>
+{% endblock %}

@@ -4,7 +4,6 @@ from sqlalchemy.exc import IntegrityError
 from flask_migrate import Migrate
 import ignoramus
 
-# TODO: Use pyMongo to use MongoDB (JSON-esque) instead of SQL.
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fullsite.db'
 db = SQLAlchemy(app)
@@ -17,10 +16,24 @@ class User(db.Model):
 	id = db.Column(db.Integer, primary_key=True, unique=True)
 	username = db.Column(db.String(50), unique=True)
 	password = db.Column(db.String(50))
+	d_email = db.Column(db.String(100))
+	d_phone = db.Column(db.String(25))
+	ph_email = db.Column(db.String(100))
+	ph_phone = db.Column(db.String(25))
 
 	def __init__(self, username, password):
 		self.username = username
 		self.password = password
+		self.d_email = ''
+		self.d_phone = ''
+		self.ph_phone = ''
+		self.ph_email = ''
+
+	def get_contacts(self, d_email, d_phone, ph_email, ph_phone):
+		self.d_email = d_email
+		self.d_phone = d_phone
+		self.ph_phone = ph_phone
+		self.ph_email = ph_email
 
 class Full_Med(db.Model):
 
@@ -32,21 +45,27 @@ class Full_Med(db.Model):
 	generic_name = db.Column(db.String(100))
 	dose_type = db.Column(db.String(50))
 	quantity = db.Column(db.String(50))
-	# Will be structured as a dropdown ('Daily', 'Every Other Day', 'Twice Daily,' 'As Needed,' etc.)
+
 	frequency = db.Column(db.String(100))
 	notes = db.Column(db.String(1000))
 
-	# TODO: Incorporate pill descriptions.
-	# TODO: Incorporate side effects and warnings as a list. MongoDB might make it easier.
+	p_color = db.Column(db.String(100))
+	p_type = db.Column(db.String(100))
+	p_shape = db.Column(db.String(100))
+	p_text = db.Column(db.String(100))
 
-	def __init__(self, brand_name, generic_name, dose_type, quantity, frequency, notes, owner):
+	def __init__(self, brand_name, generic_name, dose_type, quantity, frequency, notes, owner, p_color, p_type, p_shape, p_text):
 		self.brand_name = brand_name
 		self.generic_name = generic_name
 		self.dose_type = dose_type
 		self.quantity = quantity
 		self.frequency = frequency
 		self.notes = notes
-		self.owner = owner	
+		self.owner = owner
+		self.p_color = p_color
+		self.p_type = p_type
+		self.p_shape = p_shape
+		self.p_text = p_text
 
 class Known_Med(db.Model):
 
@@ -56,8 +75,6 @@ class Known_Med(db.Model):
 	brand_name = db.Column(db.String(100))
 	generic_name = db.Column(db.String(100))
 
-	# TODO: Incorporate side effects and warnings as a list. MongoDB might make it easier.
-
 	def __init__(self, brand, generic, dnum, dtype, quant, freq, notes):
 		self.brand_name = brand
 		self.generic_name = generic
@@ -66,8 +83,6 @@ class Known_Med(db.Model):
 		self.quantity = quant
 		self.frequency = freq
 		self.notes = notes
-
-# --------------------- ROUTES --------------------- #
 
 # BASE (HOME OR DASH)
 @app.route('/')
@@ -102,8 +117,6 @@ def login():
 	except:
 		return render_template('login.html', errmess='There was an error when trying to sign you in. Please try again.')
 
-# TODO: Add areas on pages to show success or error messages.
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
 	errmess=None
@@ -115,7 +128,7 @@ def register():
 		db.session.add(user_to_add)
 		db.session.commit()
 		return render_template('login.html', succmess="Account created successfully!")
-	return render_template('register.html', errmess="Cannot register you with that information. Please try again.")
+	return render_template('register.html')
 
 
 @app.route('/new', methods=['GET', 'POST'])
@@ -127,11 +140,13 @@ def new_med():
 	if request.method == 'POST':
 		med_to_add = Full_Med(brand_name=request.form['brand'], generic_name=request.form['generic'],
 					 dose_type=request.form['dtype'], quantity=request.form['quant'],
-					 frequency=request.form['freq'], notes=request.form['notes'], owner=session['active_user'])
+					 frequency=request.form['freq'], p_color=request.form['pcol'],
+					 p_type=request.form['ptype'], p_shape=request.form['pshape'],
+					 p_text=request.form['ptext'], notes=request.form['notes'], owner=session['active_user'])
 		db.session.add(med_to_add)
 		db.session.commit()
 		return redirect(url_for('view_dash'))
-	return render_template('new.html', errmess="There was an error while processing your request. Please try again.")
+	return render_template('new.html')
 
 @app.route('/dashboard')
 def view_dash():
@@ -140,12 +155,37 @@ def view_dash():
 	if not session.get('logged_in'):
 		return redirect(url_for('landing'))
 	allmeds = Full_Med.query.filter_by(owner=session['active_user']).all()
-	return render_template('dashboard.html', allmeds=allmeds)
+	profinfo = User.query.filter_by(username=session['active_user']).first()
+	return render_template('dashboard.html', allmeds=allmeds, profinfo=profinfo)
 
 @app.route('/<int:med_id>')
 def view_med(med_id):
 	med_holder = Full_Med.query.filter_by(id=med_id).first()
-	return render_template('med.html', med_holder=med_holder)
+	if session['active_user'] == med_holder.owner:
+		return render_template('med.html', med_holder=med_holder)
+	else:
+		return redirect(url_for('view_dash'))
+
+@app.route('/optup')
+def opt_in_change():
+	if not session.get('logged_in'):
+		return redirect(url_for('view_dash'))
+	else:
+		return render_template('update.html')
+
+@app.route('/update', methods=['GET', 'POST'])
+def update_prof():
+	errmess=None
+	succmess=None
+	if not session['logged_in']:
+		return redirect(url_for('view_dash'))
+	if request.method == 'POST':
+		old_data = User.query.filter_by(username=session['active_user']).first()
+		old_data.get_contacts(d_phone=request.form['d_phone'], d_email=request.form['d_email'],
+										ph_phone=request.form['ph_phone'], ph_email=request.form['ph_email'])
+		db.session.commit()
+		return render_template('dashboard.html', succmess="Account updated successfully!")
+	return render_template('update.html')
 
 @app.route("/logout")
 def logout():
@@ -153,27 +193,9 @@ def logout():
 	session['active_user'] = None
 	return redirect(url_for('landing'))
 
-'''
-@app.route('/login')
-
-@app.route('/register')
-
-@app.route('/dashboard')
-
-@app.route('/med')
-
-@app.route('/med/<med_id>')
-
-@app.route('/new')
-
-@app.route('/delete')
-
-@app.route('/profile')
-
-@app.route('/profile/update')
-'''
-
-# --------------------- END ROUTES --------------------- #
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 
 if __name__ == '__main__':
